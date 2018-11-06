@@ -112,7 +112,10 @@ int main()
             }
 
             //Put fps at which we are processinf camera feed on frame
-            cv::putText(winName, im);
+            cv::putText(im, cv::format("fps %.2f", fps), cv::Point(50, size.height - 50),
+                        cv::FONT_HERSHEY_COMPLEX, 1.5, cv::Scalar(0, 0, 255), 3);
+            //Display it all on the screen
+            cv::imshow(winName, im);
             //Wait for keypress
             char key = cv::waitKey(1);
             if(key == 27) //ESC
@@ -137,18 +140,20 @@ int main()
 
             //Close all OpenCV windows when the program exits. Catch blocks catch and print, if
             //there are any errors.
+            cap.release();
+            cv::destroyAllWindows();
         }
-        catch(serialization_error& e)
-        {
-            cout << "You need dlib's default face landmarking model file to run this example." << endl;
-            cout << "You can get it from the following URL: " << endl;
-            cout << "   http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2" << endl;
-            cout << endl << e.what() << endl;
-        }
-        catch(exception& e)
-        {
-            cout << e.what() <<endl;
-        }
+    }
+    catch(serialization_error& e)
+    {
+        cout << "You need dlib's default face landmarking model file to run this example." << endl;
+        cout << "You can get it from the following URL: " << endl;
+        cout << "   http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2" << endl;
+        cout << endl << e.what() << endl;
+    }
+    catch(exception& e)
+    {
+        cout << e.what() <<endl;
     }
 }
 
